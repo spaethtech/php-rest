@@ -141,6 +141,9 @@ class RestObject extends AutoObject implements \JsonSerializable
                 // IF the $type is valid and is not in the array of built-in types...
                 if($type !== null && !in_array($type, $types))
                 {
+                    if(Strings::contains($type, "[]"))
+                        $type = str_replace("[]", "", $type);
+
                     // THEN determine the FQCN for the 'type' and the the 'Lookup' classes.
                     //$type = self::LOOKUP_NAMESPACE."\\$type";
                     $type = $annotations->findAnnotationClass($type);
