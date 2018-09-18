@@ -290,9 +290,9 @@ class RestObject extends AutoObject implements \JsonSerializable
             $params = $annotations->getPropertyAnnotations($name);
 
             // IF this is a required property, per the use of '@<method>Required'...
-            if(array_key_exists($method."Required", $params))
+            if(array_key_exists(ucfirst($method)."Required", $params) || array_key_exists($method."-required", $params))
             {
-                $conditional = $params[$method."Required"];
+                $conditional = $params[ucfirst($method)."Required"];
                 $required = true;
 
                 if ($conditional === "")
@@ -303,7 +303,7 @@ class RestObject extends AutoObject implements \JsonSerializable
                 if($conditional !== "" && Strings::contains($conditional, "`"))
                 {
                     $conditional = str_replace("`", "", $conditional);
-                    $required = eval("return $conditional;");
+                    $required = eval("use $class; return $conditional;");
                 }
                 else
                 {
