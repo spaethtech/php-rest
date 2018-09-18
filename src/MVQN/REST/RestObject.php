@@ -136,7 +136,9 @@ class RestObject extends AutoObject implements \JsonSerializable
             $type = $info["types"][0];
 
             // IF the current property has either the '@<method>' or '@<method>Required' or we want all properties...
-            if(array_key_exists($method, $params) || array_key_exists($method."Required", $params) || $method === "")
+            if (array_key_exists(ucfirst($method), $params) || array_key_exists($method, $params) ||
+                array_key_exists(ucfirst($method)."Required", $params) || array_key_exists($method."-required", $params) ||
+                $method === "")
             {
                 // IF the $type is valid and is not in the array of built-in types...
                 if($type !== null && !in_array($type, $types))
@@ -179,7 +181,7 @@ class RestObject extends AutoObject implements \JsonSerializable
 
                                     // IF the '@keepNullElements' annotation has been set
                                     // AND this would be an empty array...
-                                    if(array_key_exists("keepNullElements", $params) && array_filter($assoc) === [])
+                                    if(array_key_exists("KeepNullElements", $params) && array_filter($assoc) === [])
                                         // THEN add the NULL delimiter string as a placeholder.
                                         $fields[$name][] = self::NULL_DELIMITER;
                                     else

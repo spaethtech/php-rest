@@ -47,21 +47,23 @@ class AutoObject extends Collectible
         // Instantiate an Annotation Reader!
         $annotationReader = new AnnotationReader(get_class($this));
         $this->annotationCache = $annotationReader->getAnnotations();
-
     }
 
 
     public function __call(string $name, array $args)
     {
-        // Build the cache for this class, if it has not already been done!
-        if($this->annotationCache === null)
-            $this->buildAnnotationCache();
-
         // Check to see if a real method already exists for the requested __call()...
         if(method_exists($this, $name))
             return $name($args);
 
         $class = get_class($this);
+
+        // Build the cache for this class, if it has not already been done!
+        if($this->annotationCache === null)
+        {
+            $this->buildAnnotationCache();
+        }
+
 
         // Handle the cases, where the method called begins with 'get'...
         if(Strings::startsWith($name, "get"))
@@ -78,9 +80,10 @@ class AutoObject extends Collectible
 
             foreach ($this->annotationCache["class"]["method"] as $annotation)
             {
-                if(preg_match($regex, $annotation, $matches))
+                if(Strings::startsWith($annotation["name"], "get"))
+                //if(preg_match($regex, $annotation, $matches))
                 {
-                    if(in_array($name, $matches))
+                    //if(in_array($name, $matches))
                     {
                         $found = true;
                         break;
@@ -110,14 +113,15 @@ class AutoObject extends Collectible
                 throw new \Exception("Method '$name' was either not defined or does not have an annotation in class '".
                     $class."'!");
 
-            $regex = "/^(?:[\w\|\[\]]*)?\s+(set\w*)\s*\(.*\).*$/";
+            //$regex = "/^(?:[\w\|\[\]]*)?\s+(set\w*)\s*\(.*\).*$/";
             $found = false;
 
             foreach ($this->annotationCache["class"]["method"] as $annotation)
             {
-                if(preg_match($regex, $annotation, $matches))
+                if(Strings::startsWith($annotation["name"], "get"))
+                //if(preg_match($regex, $annotation, $matches))
                 {
-                    if(in_array($name, $matches))
+                    //if(in_array($name, $matches))
                     {
                         $found = true;
                         break;
