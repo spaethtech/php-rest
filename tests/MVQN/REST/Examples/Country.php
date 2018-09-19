@@ -6,6 +6,7 @@ namespace Tests\MVQN\REST\Examples;
 use MVQN\REST\Annotations\EndpointAnnotation;
 use MVQN\REST\Annotations\EndpointAnnotation as Endpoint;
 use MVQN\REST\Annotations\PostRequiredAnnotation as PostRequired;
+use MVQN\REST\Annotations\CachedAnnotation as Cached;
 
 use MVQN\REST\Endpoints\EndpointObject;
 use Tests\MVQN\REST\Examples\Helpers\CountryHelper;
@@ -16,6 +17,8 @@ use Tests\MVQN\REST\Examples\Helpers\CountryHelper;
  * @package UCRM\REST\Endpoints
  * @author Ryan Spaeth <rspaeth@mvqn.net>
  * @final
+ *
+ * @Cached
  *
  * @Endpoint { "get": "/countries", "getById": "/countries/:id" }
  * @EndpointAnnotation [ "post" => "/countries" ]
@@ -45,15 +48,5 @@ final class Country extends EndpointObject
      * @PostRequired `$this->name === "United States"`
      */
     protected $code;
-
-
-    /**
-     * @var string
-     *
-     */
-    protected $test;
-
-
-
 
 }

@@ -18,9 +18,11 @@ class RestClientTests extends PHPUnit\Framework\TestCase
     {
         //$result = RestClient::get("/version");
 
+        RestClient::cacheDir(__DIR__);
+
         /** @var Country $result */
-        //$result = Country::get();
-        $result = Country::getByID(249);
+        $result = Country::get();
+        //$result = Country::getByID(249);
         echo $result . "\n";
 
     }

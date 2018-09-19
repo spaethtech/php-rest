@@ -17,6 +17,9 @@ use MVQN\REST\{RestObject, RestClient};
  */
 abstract class EndpointObject extends RestObject
 {
+    /** @const int The default JSON options for use when caching the annotations. */
+    private const CACHE_JSON_OPTIONS = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT;
+
     // =================================================================================================================
     // PROPERTIES (GLOBAL)
     // -----------------------------------------------------------------------------------------------------------------
@@ -162,6 +165,25 @@ abstract class EndpointObject extends RestObject
                 throw new \Exception("[MVQN\REST\Endpoints\Endpoint] An '@Endpoint { \"get\": \"/examples\" }' annotation on the class must " .
                     "be declared in order to resolve this endpoint'");
 
+            $cached = $annotations->hasClassAnnotation("cached");
+
+            if(RestClient::cacheDir() !== null && $cached)
+            {
+                $file = RestClient::cachePath($class);
+
+                if(file_exists($file))
+                {
+                    $objects = json_decode(file_get_contents($file), true);
+                    unset($objects["_cached"]);
+                    $objects = array_values($objects);
+
+                    $endpoints = new Collection($class, $objects);
+
+                    return $endpoints;
+                }
+
+            }
+
             // Interpolate the URL patterns against any provided parameters.
             $endpoint = Patterns::interpolateUrl($endpoints["get"], $params);
         }
@@ -225,6 +247,27 @@ abstract class EndpointObject extends RestObject
             $endpoints->push($classObject);
         }
 
+        if(RestClient::cacheDir() !== null && $cached)
+        {
+            $file = RestClient::cachePath($class);
+
+            if (!file_exists(dirname($file)))
+                mkdir(dirname($file), 0777, true);
+
+            $elements = [];
+
+            foreach($endpoints->elements() as $element)
+            {
+                /** @var EndpointObject $element */
+                $id = $element->getId();
+                $elements[$id] = $element;
+            }
+
+            $elements["_cached"] = (new \DateTime())->format("c");
+
+            file_put_contents($file, json_encode($elements, self::CACHE_JSON_OPTIONS));
+        }
+
         // Finally, return the collection of EndpointObjects!
         return $endpoints;
     }
@@ -252,6 +295,26 @@ abstract class EndpointObject extends RestObject
         if(!array_key_exists("getById", $endpoints))
             throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] An '@EndpointAnnotation { \"getById\": \"/examples/:id\" }' annotation on ".
                 "the '$class' class must be declared in order to resolve this endpoint'");
+
+        $cached = $annotations->hasClassAnnotation("cached");
+
+        if(RestClient::cacheDir() !== null && $cached)
+        {
+            $file = RestClient::cachePath($class);
+
+            if(file_exists($file))
+            {
+                $objects = json_decode(file_get_contents($file), true);
+                //unset($objects["_cached"]);
+                //$objects = array_values($objects);
+                $object = $objects[$id];
+
+                $endpoint = new $class($object);
+
+                return $endpoint;
+            }
+
+        }
 
         // Interpolate the URL patterns against any provided parameters.
         $endpoint = Patterns::interpolateUrl($endpoints["getById"], [ "id" => $id ]);

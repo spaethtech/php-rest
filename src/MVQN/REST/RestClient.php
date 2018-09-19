@@ -17,12 +17,18 @@ final class RestClient
     private const JSON_OPTIONS = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES;
 
 
+
+
     /** @var string The base URL with which all requests will be prefixed. */
     private static $_baseUrl = "";
 
     /** @var string[] Optional headers for which all requests will contain. */
     private static $_headers = [];
 
+
+    private static $cachePath = null;
+
+    private const CACHE_FOLDER = ".rest";
 
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -79,6 +85,99 @@ final class RestClient
         // Finally, return the Headers!
         return self::$_headers;
     }
+
+
+    // =================================================================================================================
+    // STATIC METHODS: Caching
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * @param string|null $path If provided, sets the cache directory for annotations from this point forward.
+     * @return string|null Returns the directory path, or NULL if caching is disabled.
+     */
+    public static function cacheDir(string $path = null): ?string
+    {
+        if($path !== null)
+        {
+            // Create the cache directory, if it does not exist...
+            if (!file_exists(dirname($path)))
+                mkdir(dirname($path), 0777, true);
+
+            // Create a '.cache' directory inside the cache directory, if it does not exist...
+            if (!file_exists(dirname($path."/".self::CACHE_FOLDER."/")))
+                mkdir(dirname($path."/".self::CACHE_FOLDER."/"), 0777, true);
+
+            // Set the cache path, statically, for future use.
+            self::$cachePath = $path;
+        }
+
+        // Return the cache path, even if it is NULL!
+        return self::$cachePath;
+    }
+
+    /**
+     * @param string $directory The current directory to remove.
+     * @internal
+     */
+    private static function removeDirectoryRecursive(string $directory)
+    {
+        if (is_dir($directory))
+        {
+            foreach (scandir($directory) as $object)
+            {
+                if ($object !== "." && $object !== "..")
+                {
+                    if (is_dir($directory."/".$object))
+                        self::removeDirectoryRecursive($directory."/".$object);
+                    else
+                        unlink($directory."/".$object);
+                }
+            }
+
+            rmdir($directory);
+        }
+    }
+
+    /**
+     * @param array|null $classes An optional array of class names for which to remove, ignoring the rest.
+     */
+    public static function cacheClear(array $classes = null): void
+    {
+        if(self::$cachePath !== null)
+        {
+            // IF no specific classes have been provided
+            if($classes === null)
+            {
+                // Use a specific '.cache' directory as to avoid accidentally deleting undesired folders recursively.
+                self::removeDirectoryRecursive(self::$cachePath."/".self::CACHE_FOLDER."/");
+                return;
+            }
+
+            // Loop through each provided class and attempt to delete them individually...
+            foreach($classes as $class)
+            {
+                $cacheFile = self::$cachePath."/".self::CACHE_FOLDER."/".$class;
+
+                if(file_exists($cacheFile))
+                    self::removeDirectoryRecursive($cacheFile);
+            }
+        }
+    }
+
+
+    public static function cachePath(string $class): string
+    {
+        //$namespace = explode("\\", $class);
+        //$name = array_pop($namespace);
+        //$namespace = implode("\\", $namespace);
+
+        $cacheFile = self::$cachePath."/".self::CACHE_FOLDER."/$class.json";
+
+        return $cacheFile;
+    }
+
+
+
 
     // -----------------------------------------------------------------------------------------------------------------
 
