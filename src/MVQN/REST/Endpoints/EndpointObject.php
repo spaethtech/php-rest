@@ -151,6 +151,8 @@ abstract class EndpointObject extends RestObject
         // Set any flags here for special cases!
         $excludeId = false;
 
+        $cached = false;
+
         // IF no override path has been provided...
         if($override === "")
         {
