@@ -18,7 +18,7 @@ class AutoObject extends Collectible
     /**
      * @var array An array of cached annotations for this class to be used to speed up look-ups in future calls.
      */
-    private $annotationCache = null;
+    private static $annotationCache = null;
 
     /**
      * @const array a list of methods for which to ignore when parsing annotations.
@@ -42,11 +42,11 @@ class AutoObject extends Collectible
 
     private function buildAnnotationCache(): void
     {
-        $this->annotationCache = [];
+        self::$annotationCache = [];
 
         // Instantiate an Annotation Reader!
         $annotationReader = new AnnotationReader(get_class($this));
-        $this->annotationCache = $annotationReader->getAnnotations();
+        self::$annotationCache = $annotationReader->getAnnotations();
     }
 
 
@@ -59,7 +59,7 @@ class AutoObject extends Collectible
         $class = get_class($this);
 
         // Build the cache for this class, if it has not already been done!
-        if($this->annotationCache === null)
+        if(self::$annotationCache === null)
         {
             $this->buildAnnotationCache();
         }
@@ -70,15 +70,15 @@ class AutoObject extends Collectible
         {
             $property = lcfirst(str_replace("get", "", $name));
 
-            if(!array_key_exists("class", $this->annotationCache) ||
-                !array_key_exists("method", $this->annotationCache["class"]))
+            if(!array_key_exists("class", self::$annotationCache) ||
+                !array_key_exists("method", self::$annotationCache["class"]))
                 throw new \Exception("Method '$name' was either not defined or does not have an annotation in class '".
                     $class."'!");
 
             $regex = "/^(?:[\w\|\[\]]*)?\s+(get\w*)\s*\(.*\).*$/";
             $found = false;
 
-            foreach ($this->annotationCache["class"]["method"] as $annotation)
+            foreach (self::$annotationCache["class"]["method"] as $annotation)
             {
                 if(Strings::startsWith($annotation["name"], "get"))
                 //if(preg_match($regex, $annotation, $matches))
@@ -108,15 +108,15 @@ class AutoObject extends Collectible
         {
             $property = lcfirst(str_replace("set", "", $name));
 
-            if(!array_key_exists("class", $this->annotationCache) ||
-                !array_key_exists("method", $this->annotationCache["class"]))
+            if(!array_key_exists("class", self::$annotationCache) ||
+                !array_key_exists("method", self::$annotationCache["class"]))
                 throw new \Exception("Method '$name' was either not defined or does not have an annotation in class '".
                     $class."'!");
 
             //$regex = "/^(?:[\w\|\[\]]*)?\s+(set\w*)\s*\(.*\).*$/";
             $found = false;
 
-            foreach ($this->annotationCache["class"]["method"] as $annotation)
+            foreach (self::$annotationCache["class"]["method"] as $annotation)
             {
                 if(Strings::startsWith($annotation["name"], "get"))
                 //if(preg_match($regex, $annotation, $matches))

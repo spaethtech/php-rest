@@ -15,7 +15,7 @@
         "ext-curl": "*",
         "ext-json": "*",
         "mvqn/common": "1.0.0",
-        "mvqn/annotations": "1.0.6",
+        "mvqn/annotations": "1.0.7",
         "mvqn/collections": "1.0.0"
     },
     "require-dev": {
