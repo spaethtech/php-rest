@@ -28,7 +28,7 @@ final class RestClient
 
     private static $cachePath = null;
 
-    private const CACHE_FOLDER = ".rest";
+    private const CACHE_FOLDER = ".cache/mvqn/rest";
 
 
     // -----------------------------------------------------------------------------------------------------------------
