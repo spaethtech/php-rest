@@ -264,10 +264,11 @@ class RestObject extends AutoObject implements \JsonSerializable
      *
      * @param string $method The HTTP method/verb for which to examine each property for validity.
      * @param array|null $missing A reference array used to store the missing/unset properties for later use.
+     * @param array|null $ignored A reference array used to store any ignored properties for later use.
      * @return bool Returns TRUE if all required properties have a value set, otherwise FALSE.
      * @throws \Exception
      */
-    public function validate(string $method, array &$missing = null): bool
+    public function validate(string $method, array &$missing = null, array &$ignored = null): bool
     {
         // Setup the Reflection instance for the calling class.
         $class = get_called_class();
@@ -320,6 +321,17 @@ class RestObject extends AutoObject implements \JsonSerializable
                 // IF the value of this property is NULL, THEN we need to mark it as missing.
                 if($required && $value === null)
                     $missing[] = $name;
+            }
+
+            if (!array_key_exists(ucfirst($method)."Required", $params) &&
+                !array_key_exists($method."-required", $params) &&
+                !array_key_exists(ucfirst($method), $params) &&
+                !array_key_exists($method, $params))
+            {
+                // Unset this property, as it should not be passed to the Endpoint!
+                unset($this->{$name});
+
+                $ignored[] = $name;
             }
         }
 
