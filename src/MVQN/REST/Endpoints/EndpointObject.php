@@ -224,6 +224,8 @@ abstract class EndpointObject extends RestObject
                 case 403: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] The provided App Key does not have sufficient privileges!");
                 case 404: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] EndpointObject '$endpoint' was not found for class '$class'!");
 
+                case 500: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] EndpointObject '$endpoint' returned: '{$response["message"]}'!");
+
                 // TODO: Add other response codes, as they are encountered!
 
                 default:  break; // Likely the key "code" from an actual EndpointObject!
