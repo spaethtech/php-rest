@@ -148,26 +148,20 @@ abstract class EndpointObject extends RestObject
         // Get a reference to the type of EndpointObject calling this function.
         $class = get_called_class();
 
-        // Set any flags here for special cases!
-        $excludeId = false;
-
-        $cached = false;
+        // THEN instantiate an AnnotationReader for this class AND check for the important parameters.
+        $annotations = new AnnotationReader($class);
+        $endpoints = $annotations->getClassAnnotation("endpoints");
+        $excludeId = $annotations->hasClassAnnotation("excludeId");
+        $cached = $annotations->hasClassAnnotation("cached");
 
         // IF no override path has been provided...
         if($override === "")
         {
-            // THEN instantiate an AnnotationReader for this class AND check for the important parameters.
-            $annotations = new AnnotationReader($class);
-            $endpoints = $annotations->getClassAnnotation("endpoints");
-            $excludeId = $annotations->hasClassAnnotation("excludeId");
-            //$singular = $annotations->hasParameter("singular");
-
             // Make certain we have found a valid set of GET annotations, or throw an error!
             if (!array_key_exists("get", $endpoints) || $endpoints["get"] === "")
                 throw new \Exception("[MVQN\REST\Endpoints\Endpoint] An '@Endpoint { \"get\": \"/examples\" }' annotation on the class must " .
                     "be declared in order to resolve this endpoint'");
 
-            $cached = $annotations->hasClassAnnotation("cached");
 
             if(RestClient::cacheDir() !== null && $cached)
             {
@@ -193,7 +187,6 @@ abstract class EndpointObject extends RestObject
         {
             // Interpolate the overridden URL pattern against any provided parameters.
             $endpoint = Patterns::interpolateUrl($override, $params);
-            //$endpoint = $override;
         }
 
         // Append any provided suffixes to the URL (i.e. query string).
