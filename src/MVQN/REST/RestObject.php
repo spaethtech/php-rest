@@ -326,7 +326,7 @@ class RestObject extends AutoObject implements \JsonSerializable
             if (!array_key_exists(ucfirst($method)."Required", $params) &&
                 !array_key_exists($method."-required", $params) &&
                 !array_key_exists(ucfirst($method), $params) &&
-                !array_key_exists($method, $params))
+                !array_key_exists($method, $params) && ($method !== "post" && $name !== "id"))
             {
                 // Unset this property, as it should not be passed to the Endpoint!
                 unset($this->{$name});
