@@ -25,7 +25,7 @@ final class EndpointAnnotation extends Annotation
     {
         if(Patterns::isJSON($this->value) || Patterns::isArray($this->value))
         {
-            $existing = Arrays::combineResults($existing, "endpoints", $this->value, Arrays::COMBINE_MODE_MERGE);
+            $existing = Arrays::combineResults($existing, "Endpoint", $this->value, Arrays::COMBINE_MODE_MERGE);
         }
 
         return $existing;

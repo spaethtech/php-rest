@@ -23,7 +23,7 @@ final class CachedAnnotation extends Annotation
      */
     public function parse(array $existing = []): array
     {
-        $existing["cached"] = true;
+        $existing["Cached"] = true;
         return $existing;
     }
 }

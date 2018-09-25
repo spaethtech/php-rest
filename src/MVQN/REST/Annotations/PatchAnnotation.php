@@ -20,7 +20,7 @@ final class PatchAnnotation extends Annotation
      */
     public function parse(array $existing = []): array
     {
-        $existing["patch"] = true;
+        $existing["Patch"] = true;
         return $existing;
     }
 }

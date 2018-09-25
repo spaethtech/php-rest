@@ -20,7 +20,7 @@ final class PatchRequiredAnnotation extends Annotation
      */
     public function parse(array $existing = []): array
     {
-        $existing["patchRequired"] = $this->value;
+        $existing["PatchRequired"] = $this->value;
         return $existing;
     }
 }

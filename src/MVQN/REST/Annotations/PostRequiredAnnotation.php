@@ -20,7 +20,7 @@ final class PostRequiredAnnotation extends Annotation
      */
     public function parse(array $existing = []): array
     {
-        $existing["postRequired"] = $this->value;
+        $existing["PostRequired"] = $this->value;
         return $existing;
     }
 }

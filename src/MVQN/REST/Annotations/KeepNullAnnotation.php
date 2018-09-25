@@ -20,7 +20,7 @@ final class KeepNullAnnotation extends Annotation
      */
     public function parse(array $existing = []): array
     {
-        $existing["keepNull"] = true;
+        $existing["KeepNull"] = true;
         return $existing;
     }
 }

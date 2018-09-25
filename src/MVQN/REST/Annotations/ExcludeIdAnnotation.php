@@ -20,7 +20,7 @@ final class ExcludeIdAnnotation extends Annotation
      */
     public function parse(array $existing = []): array
     {
-        $existing["excludeId"] = true;
+        $existing["ExcludeId"] = true;
         return $existing;
     }
 }

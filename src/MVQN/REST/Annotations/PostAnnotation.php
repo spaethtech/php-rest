@@ -20,7 +20,7 @@ final class PostAnnotation extends Annotation
      */
     public function parse(array $existing = []): array
     {
-        $existing["post"] = true;
+        $existing["Post"] = true;
         return $existing;
     }
 }

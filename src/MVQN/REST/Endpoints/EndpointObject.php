@@ -82,12 +82,12 @@ abstract class EndpointObject extends RestObject
 
         // Instantiate an AnnotationReader for this class AND check for the important parameters.
         $annotations = new AnnotationReader($class);
-        $endpoints = $annotations->getClassAnnotation("endpoints");
+        $endpoints = $annotations->getClassAnnotation("Endpoint");
 
         $endpoint = array_key_exists("post", $endpoints) ? $endpoints["post"] : "";
 
         if($endpoint === "")
-            throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] An annotation like '@endpoints { \"post\": \"/examples\" }' on the '$class' ".
+            throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] An annotation like '@Endpoint { \"post\": \"/examples\" }' on the '$class' ".
                 "class must be declared in order to resolve this endpoint'");
 
         // Interpolate the URL patterns against any provided parameters.
@@ -150,9 +150,10 @@ abstract class EndpointObject extends RestObject
 
         // THEN instantiate an AnnotationReader for this class AND check for the important parameters.
         $annotations = new AnnotationReader($class);
-        $endpoints = $annotations->getClassAnnotation("endpoints");
-        $excludeId = $annotations->hasClassAnnotation("excludeId");
-        $cached = $annotations->hasClassAnnotation("cached");
+        $endpoints = $annotations->getClassAnnotation("Endpoint");
+        $excludeId = $annotations->hasClassAnnotation("ExcludeId");
+        $cached = $annotations->hasClassAnnotation("Cached");
+        //$collection = $annotations->getClassAnnotation("Collection");
 
         // IF no override path has been provided...
         if($override === "")
@@ -265,6 +266,8 @@ abstract class EndpointObject extends RestObject
             file_put_contents($file, json_encode($elements, self::CACHE_JSON_OPTIONS));
         }
 
+
+
         // Finally, return the collection of EndpointObjects!
         return $endpoints;
     }
@@ -286,14 +289,14 @@ abstract class EndpointObject extends RestObject
 
         // Instantiate an AnnotationReader for this class AND check for the important parameters.
         $annotations = new AnnotationReader($class);
-        $endpoints = $annotations->getClassAnnotation("endpoints");
+        $endpoints = $annotations->getClassAnnotation("Endpoint");
 
         // Make certain we have found a valid set of GET annotations, or throw an error!
         if(!array_key_exists("getById", $endpoints))
-            throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] An '@EndpointAnnotation { \"getById\": \"/examples/:id\" }' annotation on ".
+            throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] An '@Endpoint { \"getById\": \"/examples/:id\" }' annotation on ".
                 "the '$class' class must be declared in order to resolve this endpoint'");
 
-        $cached = $annotations->hasClassAnnotation("cached");
+        $cached = $annotations->hasClassAnnotation("Cached");
 
         if(RestClient::cacheDir() !== null && $cached)
         {
@@ -390,12 +393,12 @@ abstract class EndpointObject extends RestObject
 
         // Instantiate an AnnotationReader for this class AND check for the important parameters.
         $annotations = new AnnotationReader($class);
-        $endpoints = $annotations->getClassAnnotation("endpoints");
+        $endpoints = $annotations->getClassAnnotation("Endpoint");
 
         $endpoint = array_key_exists("patch", $endpoints) ? $endpoints["patch"] : null;
 
         if($endpoint === null || $endpoint === [])
-            throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] An annotation like '@endpoints { \"patch\": \"/examples/:id\" }' on the ".
+            throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] An annotation like '@Endpoint { \"patch\": \"/examples/:id\" }' on the ".
                 "'$class' class must be declared in order to resolve this endpoint'");
 
         // Interpolate the URL patterns against any provided parameters.
