@@ -469,7 +469,7 @@ abstract class EndpointObject extends RestObject
 
 
 
-    public static function delete(?EndpointObject $data, array $params = [], string $suffix = ""): ?EndpointObject
+    public static function delete(?EndpointObject $data, array $params = [], string $suffix = ""): bool
     {
         // Get a reference to the type of EndpointObject calling this function.
         $class = get_called_class();
@@ -498,11 +498,11 @@ abstract class EndpointObject extends RestObject
         $response = RestClient::delete($endpoint);
 
         // IF the response is empty, something went VERY wrong!
-        if($response === [])
-        {
-            throw new \Exception("WTF???");
-            //return [];
-        }
+        //if($response === [])
+        //{
+        //    throw new \Exception("WTF???");
+        //    //return [];
+        //}
 
         // HANDLE ANY ERROR CODES HERE...
         if(array_key_exists("code", $response))
@@ -524,7 +524,7 @@ abstract class EndpointObject extends RestObject
         }
 
         // Finally, return the instantiated EndpointObject!
-        return new $class($response);
+        return true;
     }
 
 

@@ -443,16 +443,20 @@ final class RestClient
 
         // Execute the request and capture the response.
         $response = curl_exec($curl);
+        $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
         // Check to see if there were any errors...
-        if(!$response)
-            throw new \Exception("[MVQN\REST\ResClient] The REST request failed with the following error(s): ".curl_error($curl));
+        //if($response)
+        //    throw new \Exception("[MVQN\REST\ResClient] The REST request failed with the following error(s): ".curl_error($curl));
+
+        if($httpCode !== 200)
+            return json_decode($response, true);
 
         // Close the cURL session.
         curl_close($curl);
 
         // Finally, return the resulting associative array!
-        return json_decode($response, true);
+        return [];
     }
 
 }
