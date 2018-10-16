@@ -449,12 +449,85 @@ abstract class EndpointObject extends RestObject
 
 
 
-    public function evaluate(string $eval)
+    public function remove(): self
     {
-        $c = get_called_class();
+        /** @var self $data */
+        $data = $this;
 
+        //if(!$this->validate("delete", $missing))
+        //{
+        //    throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] Annotations for the '".get_class($this)."' class require valid values be set ".
+        //        "on all of the following properties before attempting an update():\n> ".implode("\n> ", $missing)."\n");
+        //}
 
-        echo "";
+        /** @var self $endpoint */
+        $endpoint = self::delete($data, [ "id" => $this->getId() ]);
+
+        return $endpoint;
     }
+
+
+
+
+    public static function delete(?EndpointObject $data, array $params = [], string $suffix = ""): ?EndpointObject
+    {
+        // Get a reference to the type of EndpointObject calling this function.
+        $class = get_called_class();
+
+        // Instantiate an AnnotationReader for this class AND check for the important parameters.
+        $annotations = new AnnotationReader($class);
+        $endpoints = $annotations->getClassAnnotation("Endpoint");
+
+        $endpoint = array_key_exists("delete", $endpoints) ? $endpoints["delete"] : null;
+
+        if($endpoint === null || $endpoint === [])
+            throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] An annotation like '@Endpoint { \"delete\": \"/examples/:id\" }' on the ".
+                "'$class' class must be declared in order to resolve this endpoint'");
+
+        // Interpolate the URL patterns against any provided parameters.
+        $endpoint = Patterns::interpolateUrl($endpoints["delete"], $params);
+
+        // Append any provided suffixes to the URL.
+        if($suffix !== "")
+            $endpoint .= $suffix;
+
+        // Get an array of all Model properties, with any that do not belong in the PATCH method removed!
+        //$data = ($data !== null) ? $data->toArray("delete") : [];
+
+        // Attempt to PATCH the specified EndpointObject.
+        $response = RestClient::delete($endpoint);
+
+        // IF the response is empty, something went VERY wrong!
+        if($response === [])
+        {
+            throw new \Exception("WTF???");
+            //return [];
+        }
+
+        // HANDLE ANY ERROR CODES HERE...
+        if(array_key_exists("code", $response))
+        {
+            switch($response["code"])
+            {
+                case 401: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] The REST Client was not authorized to make this request!");
+                case 403: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] The provided App Key does not have sufficient privileges!");
+                case 404: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] EndpointObject '$endpoint' was not found for class '$class'!");
+                case 422: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] Data for endpoint '$endpoint' was improperly formatted!\n".
+                    $response["message"]."\n".
+                    json_encode($response["errors"], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT)
+                );
+
+                // TODO: Add other response codes, as they are encountered!
+
+                default:  break; // Likely the key "code" from an actual EndpointObject!
+            }
+        }
+
+        // Finally, return the instantiated EndpointObject!
+        return new $class($response);
+    }
+
+
+
 
 }

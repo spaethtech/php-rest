@@ -428,4 +428,31 @@ final class RestClient
         return json_decode($response, true);
     }
 
+
+    public static function delete(string $endpoint): array
+    {
+        // Create the cURL session.
+        $curl = self::curl($endpoint);
+
+        // Set any additional options.
+        //curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+
+        // Set the data to be provided to the endpoint.
+        //curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data, self::JSON_OPTIONS));
+
+        // Execute the request and capture the response.
+        $response = curl_exec($curl);
+
+        // Check to see if there were any errors...
+        if(!$response)
+            throw new \Exception("[MVQN\REST\ResClient] The REST request failed with the following error(s): ".curl_error($curl));
+
+        // Close the cURL session.
+        curl_close($curl);
+
+        // Finally, return the resulting associative array!
+        return json_decode($response, true);
+    }
+
 }
