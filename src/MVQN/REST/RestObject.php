@@ -5,7 +5,7 @@ namespace MVQN\REST;
 
 use MVQN\Annotations\AnnotationReader;
 use MVQN\Common\Arrays;
-use MVQN\Common\AutoObject;
+use MVQN\Dynamics\AutoObject;
 use MVQN\Common\Strings;
 
 /**

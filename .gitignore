@@ -65,4 +65,4 @@ vendor/
 .env
 composer.lock
 
-tests/MVQN/Annotations/.cache/
+**/.cache/
