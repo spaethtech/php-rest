@@ -459,4 +459,31 @@ final class RestClient
         return [];
     }
 
+    /**
+     * Sends a HTTP GET Request to the specified endpoint of the base URL.
+     *
+     * @param string $endpoint The endpoint at which to make the request.
+     * @return mixed
+     * @throws \Exception Throws an exception if there were errors during the REST request/response phase.
+     */
+    public static function download(string $endpoint)
+    {
+        // Create the cURL session.
+        $curl = self::curl($endpoint);
+
+        // Execute the request and capture the response.
+        $response = curl_exec($curl);
+
+        // Check to see if there were any errors...
+        if(!$response)
+            throw new \Exception("[MVQN\REST\RestClient] The REST request failed with the following error(s): "
+                .curl_error($curl));
+
+        // Close the cURL session.
+        curl_close($curl);
+
+        // Finally, return the resulting associative array!
+        return $response;
+    }
+
 }
