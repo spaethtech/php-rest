@@ -20,6 +20,7 @@ final class EndpointAnnotation extends Annotation
     /**
      * @param array $existing Any existing annotations that were previously parsed from the same declaration.
      * @return array Returns an array of keyword => value(s) parsed by this Annotation implementation.
+     * @throws \Exception
      */
     public function parse(array $existing = []): array
     {

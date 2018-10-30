@@ -11,3 +11,4 @@ trait CountryHelper
         return "{$this->name} ({$this->code})";
     }
 }
+

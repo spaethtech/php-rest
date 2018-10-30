@@ -50,3 +50,4 @@ final class Country extends EndpointObject
     protected $code;
 
 }
+

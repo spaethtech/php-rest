@@ -528,6 +528,4 @@ abstract class EndpointObject extends RestObject
     }
 
 
-
-
 }
