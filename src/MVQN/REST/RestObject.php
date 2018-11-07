@@ -125,7 +125,8 @@ class RestObject extends AutoObject implements \JsonSerializable
             $params = $annotations->getPropertyAnnotations($name);
 
             // Get the information for this property, specifically the type!
-            $info = $annotations->getPropertyAnnotations($name)["var"];
+            //$info = $annotations->getPropertyAnnotations($name)["var"];
+            $info = $params[$name]["var"];
 
             // ERROR if we are unable to find the 'types' part of the @var DocBlock!
             if(!array_key_exists("types", $info))
@@ -134,6 +135,8 @@ class RestObject extends AutoObject implements \JsonSerializable
 
             // Set the 'type' from the property info collection.
             $type = $info["types"][0];
+
+            $params = $params[$name];
 
             // IF the current property has either the '@<method>' or '@<method>Required' or we want all properties...
             if (array_key_exists(ucfirst($method), $params) || array_key_exists($method, $params) ||
@@ -286,9 +289,15 @@ class RestObject extends AutoObject implements \JsonSerializable
             // Get the name of the property.
             $name = $property->getName();
 
+            if($name === "firstName" || $name === "lastName")
+            {
+
+                echo "";
+            }
+
             // Create an AnnotationReader to parse the annotations for this property and get the list of annotations.
             $annotations = new AnnotationReader($class);
-            $params = $annotations->getPropertyAnnotations($name);
+            $params = $annotations->getPropertyAnnotations($name)[$name];
 
             // IF this is a required property, per the use of '@<method>Required'...
             if(array_key_exists(ucfirst($method)."Required", $params) || array_key_exists($method."-required", $params))
@@ -301,16 +310,16 @@ class RestObject extends AutoObject implements \JsonSerializable
                     $required = true;
                 }
                 else
-                if($conditional !== "" && Strings::contains($conditional, "`"))
-                {
-                    $conditional = str_replace("`", "", $conditional);
-                    $required = eval("use $class; return $conditional;");
-                }
-                else
-                {
-                    throw new \Exception("[MVQN\Annotations\AnnotationReader] An annotation of '@{$method}Required' needs to either have a ".
-                        "value set, or a conditional statement enclosed in back-ticks (`) to be evaluated at runtime.");
-                }
+                    if($conditional !== "" && Strings::contains($conditional, "`"))
+                    {
+                        $conditional = str_replace("`", "", $conditional);
+                        $required = eval("use $class; return $conditional;");
+                    }
+                    else
+                    {
+                        throw new \Exception("[MVQN\Annotations\AnnotationReader] An annotation of '@{$method}Required' needs to either have a ".
+                            "value set, or a conditional statement enclosed in back-ticks (`) to be evaluated at runtime.");
+                    }
 
                 // THEN set the property accessible for this test only.
                 $property->setAccessible(true);
