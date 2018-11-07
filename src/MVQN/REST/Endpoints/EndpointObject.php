@@ -90,6 +90,26 @@ abstract class EndpointObject extends RestObject
             throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] An annotation like '@Endpoint { \"post\": \"/examples\" }' on the '$class' ".
                 "class must be declared in order to resolve this endpoint'");
 
+        if($params === [])
+        {
+            $parts = array_filter(explode("/", $endpoint),
+                function (string $part)
+                {
+                    return strpos($part, ":") !== false;
+                }
+            );
+
+            foreach ($parts as $param)
+            {
+                $prop = str_replace(":", "", $param);
+                if(property_exists($data, $prop))
+                {
+                    $params[$prop] = $data->$prop;
+                }
+
+            }
+        }
+
         // Interpolate the URL patterns against any provided parameters.
         $endpoint = Patterns::interpolateUrl($endpoint, $params);
 
