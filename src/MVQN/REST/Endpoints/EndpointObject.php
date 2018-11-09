@@ -481,7 +481,7 @@ abstract class EndpointObject extends RestObject
 
 
 
-    public function remove(): self
+    public function remove(): bool
     {
         /** @var self $data */
         $data = $this;
@@ -492,10 +492,9 @@ abstract class EndpointObject extends RestObject
         //        "on all of the following properties before attempting an update():\n> ".implode("\n> ", $missing)."\n");
         //}
 
-        /** @var self $endpoint */
-        $endpoint = self::delete($data, [ "id" => $this->getId() ]);
+        $deleted = self::delete($data, [ "id" => $this->getId() ]);
 
-        return $endpoint;
+        return $deleted;
     }
 
 
