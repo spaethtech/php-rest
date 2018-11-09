@@ -5,7 +5,7 @@ namespace MVQN\REST\Endpoints;
 
 use MVQN\Annotations\AnnotationReader;
 use MVQN\Collections\Collection;
-use MVQN\Common\{Arrays, Patterns};
+use MVQN\Common\{Arrays, Patterns, Strings};
 
 use MVQN\REST\{RestObject, RestClient};
 
@@ -216,7 +216,16 @@ abstract class EndpointObject extends RestObject
             $pairs = [];
 
             foreach($query as $key => $value)
+            {
+                if(is_array($value) && !Strings::endsWith($key, "[]"))
+                {
+                    $key = $key."[]";
+                    sort($value); // Necessary with encountered APIs.
+                    $value = implode(",", $value);
+                }
+
                 $pairs[] = "$key=$value";
+            }
 
             $endpoint .= "?".implode("&", $pairs);
         }
