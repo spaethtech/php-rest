@@ -131,6 +131,7 @@ abstract class EndpointObject extends RestObject
         {
             switch($response["code"])
             {
+                case 400: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] {$response["message"]}");
                 case 401: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] The REST Client was not authorized to make this request!");
                 case 403: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] The provided App Key does not have sufficient privileges!");
                 case 404: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] EndpointObject '$endpoint' was not found for class '$class'!");
@@ -243,6 +244,7 @@ abstract class EndpointObject extends RestObject
         {
             switch($response["code"])
             {
+                case 400: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] {$response["message"]}");
                 case 401: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] The REST Client was not authorized to make this request!");
                 case 403: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] The provided App Key does not have sufficient privileges!");
                 case 404: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] EndpointObject '$endpoint' was not found for class '$class'!");
@@ -364,6 +366,7 @@ abstract class EndpointObject extends RestObject
         {
             switch($response["code"])
             {
+                case 400: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] {$response["message"]}");
                 case 401: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] The REST Client was not authorized to make this request!");
                 case 403: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] The provided App Key does not have sufficient privileges!");
                 case 404: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] EndpointObject '$endpoint' was not found for class '$class'!");
@@ -458,6 +461,7 @@ abstract class EndpointObject extends RestObject
         {
             switch($response["code"])
             {
+                case 400: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] {$response["message"]}");
                 case 401: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] The REST Client was not authorized to make this request!");
                 case 403: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] The provided App Key does not have sufficient privileges!");
                 case 404: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] EndpointObject '$endpoint' was not found for class '$class'!");
@@ -540,6 +544,7 @@ abstract class EndpointObject extends RestObject
         {
             switch($response["code"])
             {
+                case 400: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] {$response["message"]}");
                 case 401: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] The REST Client was not authorized to make this request!");
                 case 403: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] The provided App Key does not have sufficient privileges!");
                 case 404: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] EndpointObject '$endpoint' was not found for class '$class'!");
