@@ -61,6 +61,12 @@ final class RestClient
         return self::$_baseUrl;
     }
 
+    public static function getBaseUrl(): string
+    {
+        return self::$_baseUrl;
+    }
+
+
     /**
      * @param array $headers
      * @return array
@@ -86,6 +92,28 @@ final class RestClient
         return self::$_headers;
     }
 
+    public static function getHeaders(): array
+    {
+        return self::$_headers ?? [];
+    }
+
+    public static function pushHeader(string $header): array
+    {
+        if(self::$_headers === null)
+            self::$_headers = [];
+
+        self::$_headers[] = $header;
+
+        return self::$_headers;
+    }
+
+    public static function popHeader(): ?string
+    {
+        if(self::$_headers === null || self::$_headers === [])
+            return null;
+
+        return array_pop(self::$_headers);
+    }
 
     // =================================================================================================================
     // STATIC METHODS: Caching
