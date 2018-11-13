@@ -247,7 +247,7 @@ final class RestClient
      * @return array Returns an associative array of the JSON result.
      * @throws \Exception Throws an exception if there were errors during the REST request/response phase.
      */
-    public static function get(string $endpoint): array
+    public static function get(string $endpoint): ?array
     {
         // Create the cURL session.
         $curl = self::curl($endpoint);
