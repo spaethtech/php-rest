@@ -242,6 +242,10 @@ final class RestClient
             // OTHERWISE, enable host/peer certificate checks, this is fine for all HTTP URLs (including localhost)!
             curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2); // DEFAULT
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 1); // DEFAULT
+
+            // Downloaded from: https://curl.haxx.se/docs/caextract.html
+            curl_setopt($curl, CURLOPT_CAINFO, __DIR__ . "/Certificates/cacert-2018-10-17.pem");
+            curl_setopt($curl, CURLOPT_CAPATH, __DIR__ . "/Certificates/cacert-2018-10-17.pem");
         }
 
         // Set the necessary HTTP HEADERS.
