@@ -5,6 +5,8 @@ namespace MVQN\REST;
 
 
 
+use MVQN\Common\Strings;
+
 /**
  * Class RestClient
  *
@@ -228,9 +230,19 @@ final class RestClient
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_HEADER, false);
 
-        // TODO: Determine if we EVER need to use HTTPS and how to handle it correctly here!
-        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2); // DEFAULT
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 1); // DEFAULT
+        // IF the Base URL is using HTTPS AND is requesting localhost...
+        if(Strings::startsWith(self::$_baseUrl, "https://localhost"))
+        {
+            // THEN disable host/peer certificate checks, as localhost cannot resolve to a valid name for SSL!
+            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+        }
+        else
+        {
+            // OTHERWISE, enable host/peer certificate checks, this is fine for all HTTP URLs (including localhost)!
+            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2); // DEFAULT
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 1); // DEFAULT
+        }
 
         // Set the necessary HTTP HEADERS.
         curl_setopt($curl, CURLOPT_HTTPHEADER, self::$_headers);
