@@ -7,17 +7,17 @@ class RestClientTests extends PHPUnit\Framework\TestCase
 {
     protected function setUp()
     {
-        RestClient::setBaseUrl("http://ucrm.dev.mvqn.net/api/v1.0");
+        $env = (new \Dotenv\Dotenv(__DIR__."/../../../"))->load();
+
+        RestClient::setBaseUrl(getenv("UCRM_REST_URL"));
         RestClient::setHeaders([
             "Content-Type: application/json",
-            "X-Auth-App-Key: j/Zne60F/72FgqC7wL/dYnp2xi554+Pu7n3YD8xGKqsaAasvCv+8V6leqbPX2lWb"
+            "X-Auth-App-Key: ".getenv("UCRM_REST_KEY")
         ]);
     }
 
     public function testGet()
     {
-        //$result = RestClient::get("/version");
-
         RestClient::cacheDir(__DIR__);
 
         /** @var Country $result */
