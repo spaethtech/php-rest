@@ -89,6 +89,7 @@ final class RestClient
         {
             // OTHERWISE set the Headers to those which were specified here.
             self::$_headers = $headers;
+            self::client();
         }
 
         // Finally, return the Headers!
@@ -106,6 +107,7 @@ final class RestClient
             self::$_headers = [];
 
         self::$_headers[] = $header;
+        self::client();
 
         return self::$_headers;
     }
@@ -115,7 +117,10 @@ final class RestClient
         if(self::$_headers === null || self::$_headers === [])
             return null;
 
-        return array_pop(self::$_headers);
+        $header = array_pop(self::$_headers);
+        self::client();
+
+        return $header;
     }
 
     // =================================================================================================================
@@ -292,6 +297,8 @@ final class RestClient
 
         return self::$_guzzle;
     }
+
+
 
 
 
