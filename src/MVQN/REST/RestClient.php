@@ -58,6 +58,7 @@ final class RestClient
         {
             // OTHERWISE set the URL to that which was specified here.
             self::$_baseUrl = $url;
+            self::client(true);
         }
 
         // Finally, return the URL, which should NEVER be empty at this point!
@@ -81,15 +82,15 @@ final class RestClient
         {
             // AND the current Key is not set...
             //if (self::$_headers === [])
-                // ... Throw an exception!
-                //throw new RestClientException(
-                //    "'ucrmKey' must be set by RestClient::ucrmKey() before calling any RestClient methods!");
+            // ... Throw an exception!
+            //throw new RestClientException(
+            //    "'ucrmKey' must be set by RestClient::ucrmKey() before calling any RestClient methods!");
         }
         else
         {
             // OTHERWISE set the Headers to those which were specified here.
             self::$_headers = $headers;
-            self::client();
+            self::client(true);
         }
 
         // Finally, return the Headers!
@@ -107,7 +108,7 @@ final class RestClient
             self::$_headers = [];
 
         self::$_headers[] = $header;
-        self::client();
+        self::client(true);
 
         return self::$_headers;
     }
@@ -118,7 +119,7 @@ final class RestClient
             return null;
 
         $header = array_pop(self::$_headers);
-        self::client();
+        self::client(true);
 
         return $header;
     }
@@ -260,9 +261,9 @@ final class RestClient
         return $curl;
     }
 
-    public static function client(): Client
+    public static function client(bool $refresh = false): Client
     {
-        if(!self::$_guzzle)
+        if(!self::$_guzzle || $refresh)
         {
             $headers = [];
 
