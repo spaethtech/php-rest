@@ -18,7 +18,9 @@ class RestClientTests extends PHPUnit\Framework\TestCase
 
     public function testGet()
     {
-        RestClient::cacheDir(__DIR__);
+        //RestClient::cacheDir(__DIR__);
+
+        //RestClient::get("/countries");
 
         /** @var Country $result */
         $result = Country::get();
@@ -26,6 +28,45 @@ class RestClientTests extends PHPUnit\Framework\TestCase
         echo $result . "\n";
 
     }
+
+    public function testPost()
+    {
+        $client = [
+            "organizationId" => 1,
+            "isLead" => true,
+            "clientType" => 1,
+            "firstName" => "Ryan",
+            "lastName" => "Spaeth",
+        ];
+
+        $results = RestClient::post("clients", $client);
+
+        var_dump($results);
+
+    }
+
+    public function testPatch()
+    {
+        $client = [
+            "firstName" => "Michelle",
+        ];
+
+        $results = RestClient::patch("clients/163", $client);
+
+        var_dump($results);
+
+    }
+
+    public function testDelete()
+    {
+
+
+        $results = RestClient::delete("clients/162");
+
+        var_dump($results);
+
+    }
+
 
 
     public function testValidate()

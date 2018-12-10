@@ -5,6 +5,7 @@ namespace MVQN\REST;
 
 
 
+use GuzzleHttp\Client;
 use MVQN\Common\Strings;
 
 /**
@@ -18,7 +19,7 @@ final class RestClient
 {
     private const JSON_OPTIONS = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES;
 
-
+    private static $_guzzle;
 
 
     /** @var string The base URL with which all requests will be prefixed. */
@@ -254,6 +255,46 @@ final class RestClient
         return $curl;
     }
 
+    public static function client(): Client
+    {
+        if(!self::$_guzzle)
+        {
+            $headers = [];
+
+            array_map(
+                function ($value) use (&$headers) {
+                    $parts = explode(":", $value);
+
+                    $key = trim($parts[0]);
+                    $val = trim($parts[1]);
+
+                    $headers[$key] = $val;
+
+                    return;
+                },
+                self::$_headers
+            );
+
+            $verify = false;
+
+            if (Strings::startsWith(self::$_baseUrl, "https")) {
+                if (!Strings::contains(self::$_baseUrl, "localhost")) {
+                    $verify = __DIR__ . "/Certificates/cacert-2018-10-17.pem";
+                }
+            }
+
+            self::$_guzzle = new Client([
+                "base_uri" => self::$_baseUrl . "/",
+                "headers" => $headers,
+                "verify" => $verify,
+            ]);
+        }
+
+        return self::$_guzzle;
+    }
+
+
+
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
@@ -265,6 +306,7 @@ final class RestClient
      */
     public static function get(string $endpoint): ?array
     {
+        /*
         // Create the cURL session.
         $curl = self::curl($endpoint);
 
@@ -277,6 +319,9 @@ final class RestClient
 
         // Close the cURL session.
         curl_close($curl);
+        */
+
+        $response = (string)self::client()->get(ltrim($endpoint, "/"))->getBody();
 
         // Finally, return the resulting associative array!
         return json_decode($response, true);
@@ -348,6 +393,7 @@ final class RestClient
      */
     public static function post(string $endpoint, array $data): array
     {
+        /*
         // Create the cURL session.
         $curl = self::curl($endpoint);
 
@@ -366,6 +412,9 @@ final class RestClient
 
         // Close the cURL session.
         curl_close($curl);
+        */
+
+        $response = (string)self::client()->post(ltrim($endpoint, "/"), [ "json" => $data ] )->getBody();
 
         // Finally, return the resulting associative array!
         return json_decode($response, true);
@@ -448,6 +497,7 @@ final class RestClient
      */
     public static function patch(string $endpoint, array $data): array
     {
+        /*
         // Create the cURL session.
         $curl = self::curl($endpoint);
 
@@ -467,6 +517,9 @@ final class RestClient
 
         // Close the cURL session.
         curl_close($curl);
+        */
+
+        $response = (string)self::client()->patch(ltrim($endpoint, "/"), [ "json" => $data ] )->getBody();
 
         // Finally, return the resulting associative array!
         return json_decode($response, true);
@@ -475,6 +528,7 @@ final class RestClient
 
     public static function delete(string $endpoint): array
     {
+        /*
         // Create the cURL session.
         $curl = self::curl($endpoint);
 
@@ -498,8 +552,12 @@ final class RestClient
 
         // Close the cURL session.
         curl_close($curl);
+        */
+
+        $response = (string)self::client()->delete(ltrim($endpoint, "/"))->getBody();
 
         // Finally, return the resulting associative array!
+        //return json_decode($response, true);
         return [];
     }
 
