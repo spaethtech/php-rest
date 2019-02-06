@@ -25,15 +25,15 @@ abstract class EndpointObject extends RestObject
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
-     * @var int $id
+     * @var int|null $id
      * @unique
      */
     protected $id;
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
