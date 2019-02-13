@@ -221,6 +221,9 @@ class RestObject extends AutoObject implements \JsonSerializable
                     $property->setAccessible(true);
                     $value = $property->getValue($this);
 
+                    if($value === null && array_key_exists("KeepNull", $params))
+                        $value = self::NULL_DELIMITER;
+
                     // Simply append the property as the current field.
                     $fields[$name] = $value;
                 }
@@ -250,7 +253,7 @@ class RestObject extends AutoObject implements \JsonSerializable
      * @return array Returns an associative array prepared for provision to any HTTP REST request body.
      * @throws \Exception
      */
-    public function toArray(string $method = "", bool $filter = false): array
+    public function toArray(string $method = "", bool $filter = true): array
     {
         $json = $this->toJSON($method, $filter, 0);
         $assoc = json_decode($json, true);
