@@ -257,6 +257,7 @@ final class RestClient
 
         // Set the necessary HTTP HEADERS.
         curl_setopt($curl, CURLOPT_HTTPHEADER, self::$_headers);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 1);
 
         return $curl;
     }
@@ -314,7 +315,6 @@ final class RestClient
      */
     public static function get(string $endpoint): ?array
     {
-        /*
         // Create the cURL session.
         $curl = self::curl($endpoint);
 
@@ -323,13 +323,17 @@ final class RestClient
 
         // Check to see if there were any errors...
         if(!$response)
-            throw new \Exception("[MVQN\REST\ResClient] The REST request failed with the following error(s): ".curl_error($curl));
+            throw new \Exception("[MVQN\REST\RestClient] The REST request failed with the following error(s): " .
+                curl_error($curl));
 
         // Close the cURL session.
         curl_close($curl);
-        */
 
-        $response = (string)self::client()->get(ltrim($endpoint, "/"))->getBody();
+        /*
+        $response = (string)self::client()
+            ->get(ltrim($endpoint, "/"))
+            ->getBody();
+        */
 
         // Finally, return the resulting associative array!
         return json_decode($response, true);
