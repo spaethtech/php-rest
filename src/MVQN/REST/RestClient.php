@@ -229,6 +229,10 @@ final class RestClient
         // Get the base URL and App Key.
         $baseUrl = self::$_baseUrl;
 
+        // IF a session currently exists, close it to ensure cURL does not hang!
+        if (session_status() !== PHP_SESSION_NONE)
+            session_write_close();
+
         // Create a cURL session.
         $curl = curl_init();
 
