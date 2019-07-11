@@ -261,7 +261,7 @@ final class RestClient
 
         // Set the necessary HTTP HEADERS.
         curl_setopt($curl, CURLOPT_HTTPHEADER, self::$_headers);
-        curl_setopt($curl, CURLOPT_TIMEOUT, 1);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 5);
 
         return $curl;
     }
