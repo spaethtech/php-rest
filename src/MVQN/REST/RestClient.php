@@ -276,8 +276,14 @@ final class RestClient
                 function ($value) use (&$headers) {
                     $parts = explode(":", $value);
 
-                    $key = trim($parts[0]);
-                    $val = trim($parts[1]);
+                    $key = "";
+                    $val = "";
+
+                    if($parts && count($parts) > 0)
+                        $key = trim($parts[0]);
+
+                    if($parts && count($parts) > 1)
+                        $val = trim($parts[1]);
 
                     $headers[$key] = $val;
 
