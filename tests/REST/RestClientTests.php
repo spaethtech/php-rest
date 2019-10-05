@@ -7,7 +7,7 @@ class RestClientTests extends PHPUnit\Framework\TestCase
 {
     protected function setUp()
     {
-        $env = (new \Dotenv\Dotenv(__DIR__."/../../../"))->load();
+        $env = (new \Dotenv\Dotenv(__DIR__ . "/../../rest/"))->load();
 
         RestClient::setBaseUrl(getenv("UCRM_REST_URL"));
         RestClient::setHeaders([
