@@ -439,7 +439,7 @@ final class RestClient
         $response = (string)self::client()->post(ltrim($endpoint, "/"), [ "json" => $data ] )->getBody();
 
         // Finally, return the resulting associative array!
-        return json_decode($response, true);
+        return json_decode($response, true) ?? [];
     }
 
     /**
