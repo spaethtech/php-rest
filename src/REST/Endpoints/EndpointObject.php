@@ -122,7 +122,7 @@ abstract class EndpointObject extends RestObject
         // IF the response is empty, something went VERY wrong!
         if($response === [])
         {
-            throw new \Exception("WTF???");
+            //throw new \Exception("WTF???");
             //return [];
         }
 
