@@ -7,6 +7,7 @@ namespace MVQN\REST;
 
 use GuzzleHttp\Client;
 use MVQN\Common\Strings;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class RestClient
@@ -413,7 +414,7 @@ final class RestClient
      * @return array Returns an associative array of the JSON result.
      * @throws \Exception Throws an exception if there were errors during the REST request/response phase.
      */
-    public static function post(string $endpoint, array $data): array
+    public static function post(string $endpoint, array $data, ResponseInterface &$response = null): array
     {
         /*
         // Create the cURL session.
@@ -436,10 +437,10 @@ final class RestClient
         curl_close($curl);
         */
 
-        $response = (string)self::client()->post(ltrim($endpoint, "/"), [ "json" => $data ] )->getBody();
+        $response = self::client()->post(ltrim($endpoint, "/"), [ "json" => $data ] );
 
         // Finally, return the resulting associative array!
-        return json_decode($response, true) ?? [];
+        return json_decode((string)$response->getBody(), true) ?? [];
     }
 
     /**

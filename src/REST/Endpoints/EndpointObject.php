@@ -7,6 +7,7 @@ use MVQN\Annotations\AnnotationReader;
 use MVQN\Collections\Collection;
 use MVQN\Common\{Arrays, Patterns, Strings};
 
+use Psr\Http\Message\ResponseInterface;
 use MVQN\REST\{RestObject, RestClient};
 
 /**
@@ -76,7 +77,7 @@ abstract class EndpointObject extends RestObject
      *
      * @throws \Exception
      */
-    public static function post(EndpointObject $data, array $params = []): EndpointObject
+    public static function post(EndpointObject $data, array $params = [], ResponseInterface &$response = null): EndpointObject
     {
         $class = get_called_class();
 
@@ -117,27 +118,27 @@ abstract class EndpointObject extends RestObject
         $data = ($data !== null) ? $data->toArray("post") : [];
 
         // Attempt to POST the specified EndpointObject.
-        $response = RestClient::post($endpoint, $data);
+        $body = RestClient::post($endpoint, $data, $response);
 
         // IF the response is empty, something went VERY wrong!
-        if($response === [])
+        if($body === [])
         {
             //throw new \Exception("WTF???");
             //return [];
         }
 
         // HANDLE ANY ERROR CODES HERE...
-        if(array_key_exists("code", $response))
+        if(array_key_exists("code", $body))
         {
-            switch($response["code"])
+            switch($body["code"])
             {
-                case 400: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] {$response["message"]}");
+                case 400: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] {$body["message"]}");
                 case 401: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] The REST Client was not authorized to make this request!");
                 case 403: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] The provided App Key does not have sufficient privileges!");
                 case 404: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] EndpointObject '$endpoint' was not found for class '$class'!");
                 case 422: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] Data for endpoint '$endpoint' was improperly formatted!\n".
-                    $response["message"]."\n".
-                    json_encode($response["errors"], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT)
+                    $body["message"]."\n".
+                    json_encode($body["errors"], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT)
                 );
 
                 // TODO: Add other response codes, as they are encountered!
@@ -147,7 +148,7 @@ abstract class EndpointObject extends RestObject
         }
 
         // Finally, return the instantiated EndpointObject!
-        return new $class($response);
+        return new $class($body);
     }
 
     // =================================================================================================================
