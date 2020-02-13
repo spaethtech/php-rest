@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\MVQN\REST\Examples;
+namespace MVQN\REST\Examples;
 
 use MVQN\REST\Annotations\EndpointAnnotation;
 use MVQN\REST\Annotations\EndpointAnnotation as Endpoint;
@@ -9,7 +9,7 @@ use MVQN\REST\Annotations\PostRequiredAnnotation as PostRequired;
 use MVQN\REST\Annotations\CachedAnnotation as Cached;
 
 use MVQN\REST\Endpoints\EndpointObject;
-use Tests\MVQN\REST\Examples\Helpers\CountryHelper;
+use MVQN\REST\Examples\Helpers\CountryHelper;
 
 /**
  * Class Country

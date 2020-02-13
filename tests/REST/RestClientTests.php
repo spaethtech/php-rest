@@ -1,20 +1,36 @@
 <?php
+declare(strict_types=1);
 
-use MVQN\REST\RestClient;
-use Tests\MVQN\REST\Examples\Country;
+namespace MVQN\REST;
 
-class RestClientTests extends PHPUnit\Framework\TestCase
+use Dotenv\Dotenv;
+use PHPUnit\Framework\TestCase;
+
+use MVQN\REST\Examples\Country;
+
+/**
+ * Class RestClientTests
+ * @package MVQN\REST
+ * @author Ryan Spaeth <rspaeth@mvqn.net>
+ */
+class RestClientTests extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
-        $env = (new \Dotenv\Dotenv(__DIR__ . "/../../rest/"))->load();
+        (new Dotenv(__DIR__ . "/../../"))->load();
 
-        RestClient::setBaseUrl(getenv("UCRM_REST_URL"));
+        RestClient::setBaseUrl(getenv("REST_URL"));
         RestClient::setHeaders([
             "Content-Type: application/json",
-            "X-Auth-App-Key: ".getenv("UCRM_REST_KEY")
+            "X-Auth-App-Key: ".getenv("REST_KEY")
         ]);
     }
+
+    public function testGetRaw()
+    {
+        var_dump(RestClient::get("/countries"));
+    }
+
 
     public function testGet()
     {
@@ -24,6 +40,19 @@ class RestClientTests extends PHPUnit\Framework\TestCase
 
         /** @var Country $result */
         $result = Country::get();
+        //$result = Country::getByID(249);
+        echo $result . "\n";
+
+    }
+
+    public function testGetById()
+    {
+        //RestClient::cacheDir(__DIR__);
+
+        //RestClient::get("/countries");
+
+        /** @var Country $result */
+        $result = Country::getById(249);
         //$result = Country::getByID(249);
         echo $result . "\n";
 

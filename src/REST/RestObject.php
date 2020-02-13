@@ -3,10 +3,14 @@ declare(strict_types=1);
 
 namespace MVQN\REST;
 
+use Exception;
+use JsonSerializable;
 use MVQN\Annotations\AnnotationReader;
 use MVQN\Common\Arrays;
 use MVQN\Dynamics\AutoObject;
 use MVQN\Common\Strings;
+use ReflectionClass;
+use ReflectionProperty;
 
 /**
  * Class RestObject
@@ -14,7 +18,7 @@ use MVQN\Common\Strings;
  * @package MVQN\REST
  * @author Ryan Spaeth <rspaeth@mvqn.net>
  */
-class RestObject extends AutoObject implements \JsonSerializable
+class RestObject extends AutoObject implements JsonSerializable
 {
 // =================================================================================================================
     // CONSTANTS
@@ -35,6 +39,8 @@ class RestObject extends AutoObject implements \JsonSerializable
      */
     public function __construct(array $values = [])
     {
+        parent::__construct($values);
+
         // Add each provided key as a property with the given value to this object...
         foreach($values as $key => $value)
             $this->$key = $value;
@@ -98,7 +104,7 @@ class RestObject extends AutoObject implements \JsonSerializable
      * @param bool $filter A flag to request the resulting JSON be stripped of fields containing null values.
      * @param int $options Any optional <b>json_encode</b> options to be used.
      * @return string Returns a JSON string prepared for provision to any HTTP REST request body.
-     * @throws \Exception
+     * @throws Exception
      */
     public function toJSON(string $method = "", bool $filter = true, int $options = 0): string
     {
@@ -107,10 +113,10 @@ class RestObject extends AutoObject implements \JsonSerializable
 
         // Setup the Reflection instance for the calling class.
         $class = get_called_class();
-        $reflection = new \ReflectionClass($class);
+        $reflection = new ReflectionClass($class);
 
         // Get an array of all Model properties, via Reflection.
-        $properties = $reflection->getProperties(\ReflectionProperty::IS_PROTECTED);
+        $properties = $reflection->getProperties(ReflectionProperty::IS_PROTECTED);
 
         // Initialize a new collection to store only the desired fields for this JSON object.
         $fields = [];
@@ -130,7 +136,7 @@ class RestObject extends AutoObject implements \JsonSerializable
 
             // ERROR if we are unable to find the 'types' part of the @var DocBlock!
             if(!array_key_exists("types", $info))
-                throw new \Exception("[MVQN\Annotations\AnnotationReader] Unable to successfully parse the DocBlock for '$name', ".
+                throw new Exception("[MVQN\Annotations\AnnotationReader] Unable to successfully parse the DocBlock for '$name', ".
                     "missing @var type!");
 
             // Set the 'type' from the property info collection.
@@ -200,7 +206,7 @@ class RestObject extends AutoObject implements \JsonSerializable
                                 // OTHERWISE, the child is an Array and we should create a Lookup class for it!
 
                                 // We should NEVER reach this block, in theory!
-                                throw new \Exception("[MVQN\REST\RestObject] An array was found for which a Lookup class should be ".
+                                throw new Exception("[MVQN\REST\RestObject] An array was found for which a Lookup class should be ".
                                     "created: ".print_r($child, true));
                             }
                         }
@@ -211,7 +217,7 @@ class RestObject extends AutoObject implements \JsonSerializable
                         // forgot to extend the Lookup class.
 
                         // We should NEVER reach this block, in theory!
-                        throw new \Exception("[MVQN\REST\RestObject] An object was found that does not extend from Lookup: $type");
+                        throw new Exception("[MVQN\REST\RestObject] An object was found that does not extend from Lookup: $type");
                     }
                 }
                 else
@@ -251,7 +257,7 @@ class RestObject extends AutoObject implements \JsonSerializable
      * @param string $method The HTTP method/verb for which to examine each property for exclusion.
      * @param bool $filter A flag to request the resulting JSON be stripped of fields containing null values.
      * @return array Returns an associative array prepared for provision to any HTTP REST request body.
-     * @throws \Exception
+     * @throws Exception
      */
     public function toArray(string $method = "", bool $filter = true): array
     {
@@ -272,16 +278,16 @@ class RestObject extends AutoObject implements \JsonSerializable
      * @param array|null $missing A reference array used to store the missing/unset properties for later use.
      * @param array|null $ignored A reference array used to store any ignored properties for later use.
      * @return bool Returns TRUE if all required properties have a value set, otherwise FALSE.
-     * @throws \Exception
+     * @throws Exception
      */
     public function validate(string $method, array &$missing = null, array &$ignored = null): bool
     {
         // Setup the Reflection instance for the calling class.
         $class = get_called_class();
-        $reflection = new \ReflectionClass($class);
+        $reflection = new ReflectionClass($class);
 
         // Get an array of all Model properties, via Reflection.
-        $properties = $reflection->getProperties(\ReflectionProperty::IS_PROTECTED);
+        $properties = $reflection->getProperties(ReflectionProperty::IS_PROTECTED);
 
         // Initialize a collection to store missing entries.
         $missing = [];
@@ -320,7 +326,7 @@ class RestObject extends AutoObject implements \JsonSerializable
                     }
                     else
                     {
-                        throw new \Exception("[MVQN\Annotations\AnnotationReader] An annotation of '@{$method}Required' needs to either have a ".
+                        throw new Exception("[MVQN\Annotations\AnnotationReader] An annotation of '@{$method}Required' needs to either have a ".
                             "value set, or a conditional statement enclosed in back-ticks (`) to be evaluated at runtime.");
                     }
 

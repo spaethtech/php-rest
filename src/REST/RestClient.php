@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace MVQN\REST;
 
-
-
 use GuzzleHttp\Client;
 use MVQN\Common\Strings;
 use Psr\Http\Message\ResponseInterface;
