@@ -1,15 +1,15 @@
 <?php
 declare(strict_types=1);
 
-namespace MVQN\REST\Examples;
+namespace rspaeth\REST\Examples;
 
-use MVQN\REST\Annotations\EndpointAnnotation;
-use MVQN\REST\Annotations\EndpointAnnotation as Endpoint;
-use MVQN\REST\Annotations\PostRequiredAnnotation as PostRequired;
-use MVQN\REST\Annotations\CachedAnnotation as Cached;
+use rspaeth\REST\Annotations\EndpointAnnotation;
+use rspaeth\REST\Annotations\EndpointAnnotation as Endpoint;
+use rspaeth\REST\Annotations\PostRequiredAnnotation as PostRequired;
+use rspaeth\REST\Annotations\CachedAnnotation as Cached;
 
-use MVQN\REST\Endpoints\EndpointObject;
-use MVQN\REST\Examples\Helpers\CountryHelper;
+use rspaeth\REST\Endpoints\EndpointObject;
+use rspaeth\REST\Examples\Helpers\CountryHelper;
 
 /**
  * Class Country
@@ -22,7 +22,7 @@ use MVQN\REST\Examples\Helpers\CountryHelper;
  *
  * @Endpoint { "get": "/countries", "getById": "/countries/:id" }
  * @EndpointAnnotation [ "post" => "/countries" ]
- * @MVQN\REST\Annotations\EndpointAnnotation { "patch": "/countries/:id" }
+ * @rspaeth\REST\Annotations\EndpointAnnotation { "patch": "/countries/:id" }
  *
  * @method string|null getName()
  * @method string|null getCode()

@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace MVQN\REST\Annotations;
+namespace rspaeth\REST\Annotations;
 
-use MVQN\Annotations\Annotation;
-use MVQN\Annotations\AnnotationReader;
-use MVQN\Common\Arrays;
-use MVQN\Common\Patterns;
+use rspaeth\Annotations\Annotation;
+use rspaeth\Annotations\AnnotationReader;
+use rspaeth\Common\Arrays;
+use rspaeth\Common\Patterns;
 
 final class CachedAnnotation extends Annotation
 {

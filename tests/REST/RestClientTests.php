@@ -1,16 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace MVQN\REST;
+namespace rspaeth\REST;
 
 use Dotenv\Dotenv;
 use PHPUnit\Framework\TestCase;
 
-use MVQN\REST\Examples\Country;
+use rspaeth\REST\Examples\Country;
 
 /**
  * Class RestClientTests
- * @package MVQN\REST
+ * @package rspaeth\REST
  * @author Ryan Spaeth <rspaeth@mvqn.net>
  */
 class RestClientTests extends TestCase

@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace MVQN\REST\Annotations;
+namespace rspaeth\REST\Annotations;
 
-use MVQN\Annotations\Annotation;
-use MVQN\Annotations\AnnotationReader;
+use rspaeth\Annotations\Annotation;
+use rspaeth\Annotations\AnnotationReader;
 
 final class KeepNullAnnotation extends Annotation
 {
