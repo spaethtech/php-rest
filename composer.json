@@ -1,5 +1,5 @@
 {
-    "name": "rspaeth/rest",
+    "name": "mvqn/rest",
     "description": "A simple REST Client library for interfacing with generic REST Endpoints.",
     "type": "library",
     "license": "MIT",
@@ -13,10 +13,10 @@
         "php": "~7.3",
         "ext-curl": "*",
         "ext-json": "*",
-        "rspaeth/annotations": "*",
-        "rspaeth/collections": "*",
-        "rspaeth/common": "*",
-        "rspaeth/dynamics": "*",
+        "mvqn/annotations": "dev-master",
+        "mvqn/collections": "dev-master",
+        "mvqn/common": "dev-master",
+        "mvqn/dynamics": "dev-master",
 
         "guzzlehttp/guzzle": "~6.0"
     },
@@ -26,17 +26,14 @@
     },
     "autoload": {
         "psr-4": {
-            "rspaeth\\": "./src/"
+            "MVQN\\": "./src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "rspaeth\\": "./tests/"
+            "MVQN\\": "./tests/"
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true,
-    "repositories": [
-        { "type": "path", "url": "../*"}
-    ]
+    "prefer-stable": true
 }

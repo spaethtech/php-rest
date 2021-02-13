@@ -1,16 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace rspaeth\REST;
+namespace MVQN\REST;
 
 use GuzzleHttp\Client;
-use rspaeth\Common\Strings;
+use MVQN\Common\Strings;
 use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class RestClient
  *
- * @package rspaeth\REST
+ * @package MVQN\REST
  * @author Ryan Spaeth <rspaeth@mvqn.net>
  * @final
  */
@@ -50,7 +50,7 @@ final class RestClient
             // AND the current URL is not set...
             if (self::$_baseUrl === "")
                 // ... Throw an exception!
-                throw new \Exception("[rspaeth\REST\ResClient] ".
+                throw new \Exception("[MVQN\REST\ResClient] ".
                     "'baseUrl' must be set by RestClient::baseUrl() before calling any RestClient methods!");
         }
         else
@@ -332,7 +332,7 @@ final class RestClient
 
         // Check to see if there were any errors...
         if(!$response)
-            throw new \Exception("[rspaeth\REST\RestClient] The REST request failed with the following error(s): " .
+            throw new \Exception("[MVQN\REST\RestClient] The REST request failed with the following error(s): " .
                 curl_error($curl));
 
         // Close the cURL session.
@@ -385,7 +385,7 @@ final class RestClient
 
             // Check to see if there were any errors...
             if(!$response)
-                throw new \Exception("[rspaeth\REST\ResClient] ".
+                throw new \Exception("[MVQN\REST\ResClient] ".
                     "The REST request failed with the following error(s): ".curl_error($curls[$i]));
 
             //  Append the successful response to the array of responses.
@@ -429,7 +429,7 @@ final class RestClient
 
         // Check to see if there were any errors...
         if(!$response)
-            throw new \Exception("[rspaeth\REST\ResClient] The REST request failed with the following error(s): ".curl_error($curl));
+            throw new \Exception("[MVQN\REST\ResClient] The REST request failed with the following error(s): ".curl_error($curl));
 
         // Close the cURL session.
         curl_close($curl);
@@ -452,7 +452,7 @@ final class RestClient
     public static function postMany(array $endpoints, array $data): array
     {
         if(count($endpoints) !== count($data))
-            throw new \Exception("[rspaeth\REST\ResClient] ".
+            throw new \Exception("[MVQN\REST\ResClient] ".
                 "Each endpoint in a RestClient::postMany() call must have an accompanying data element.");
 
         // Create a cURL multi-session handler and an array to store each instance of the cURL sessions.
@@ -489,7 +489,7 @@ final class RestClient
 
             // Check to see if there were any errors...
             if(!$response)
-                throw new \Exception("[rspaeth\REST\ResClient] ".
+                throw new \Exception("[MVQN\REST\ResClient] ".
                     "The REST request failed with the following error(s): ".curl_error($curls[$i]));
 
             //  Append the successful response to the array of responses.
@@ -534,7 +534,7 @@ final class RestClient
 
         // Check to see if there were any errors...
         if(!$response)
-            throw new \Exception("[rspaeth\REST\ResClient] The REST request failed with the following error(s): ".curl_error($curl));
+            throw new \Exception("[MVQN\REST\ResClient] The REST request failed with the following error(s): ".curl_error($curl));
 
         // Close the cURL session.
         curl_close($curl);
@@ -566,7 +566,7 @@ final class RestClient
 
         // Check to see if there were any errors...
         //if($response)
-        //    throw new \Exception("[rspaeth\REST\ResClient] The REST request failed with the following error(s): ".curl_error($curl));
+        //    throw new \Exception("[MVQN\REST\ResClient] The REST request failed with the following error(s): ".curl_error($curl));
 
         if($httpCode !== 200)
             return json_decode($response, true);
@@ -599,7 +599,7 @@ final class RestClient
 
         // Check to see if there were any errors...
         if(!$response)
-            throw new \Exception("[rspaeth\REST\RestClient] The REST request failed with the following error(s): "
+            throw new \Exception("[MVQN\REST\RestClient] The REST request failed with the following error(s): "
                 .curl_error($curl));
 
         // Close the cURL session.

@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace rspaeth\REST\Endpoints;
+namespace MVQN\REST\Endpoints;
 
-use rspaeth\Annotations\AnnotationReader;
-use rspaeth\Collections\Collection;
-use rspaeth\Common\{Arrays, Patterns, Strings};
+use MVQN\Annotations\AnnotationReader;
+use MVQN\Collections\Collection;
+use MVQN\Common\{Arrays, Patterns, Strings};
 
 use Psr\Http\Message\ResponseInterface;
-use rspaeth\REST\{RestObject, RestClient};
+use MVQN\REST\{RestObject, RestClient};
 
 /**
  * Class EndpointObject
@@ -57,7 +57,7 @@ abstract class EndpointObject extends RestObject
 
         if(!$this->validate("post", $missing))
         {
-            throw new \Exception("[rspaeth\REST\Endpoints\EndpointObject] Annotations for the '".get_class($this)."' class require valid values be set ".
+            throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] Annotations for the '".get_class($this)."' class require valid values be set ".
                 "on all of the following properties before attempting an insert():\n> ".implode("\n> ", $missing)."\n");
         }
 
@@ -88,7 +88,7 @@ abstract class EndpointObject extends RestObject
         $endpoint = array_key_exists("post", $endpoints) ? $endpoints["post"] : "";
 
         if($endpoint === "")
-            throw new \Exception("[rspaeth\REST\Endpoints\EndpointObject] An annotation like '@Endpoint { \"post\": \"/examples\" }' on the '$class' ".
+            throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] An annotation like '@Endpoint { \"post\": \"/examples\" }' on the '$class' ".
                 "class must be declared in order to resolve this endpoint'");
 
         if($params === [])
@@ -132,11 +132,11 @@ abstract class EndpointObject extends RestObject
         {
             switch($body["code"])
             {
-                case 400: throw new \Exception("[rspaeth\REST\Endpoints\EndpointObject] {$body["message"]}");
-                case 401: throw new \Exception("[rspaeth\REST\Endpoints\EndpointObject] The REST Client was not authorized to make this request!");
-                case 403: throw new \Exception("[rspaeth\REST\Endpoints\EndpointObject] The provided App Key does not have sufficient privileges!");
-                case 404: throw new \Exception("[rspaeth\REST\Endpoints\EndpointObject] EndpointObject '$endpoint' was not found for class '$class'!");
-                case 422: throw new \Exception("[rspaeth\REST\Endpoints\EndpointObject] Data for endpoint '$endpoint' was improperly formatted!\n".
+                case 400: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] {$body["message"]}");
+                case 401: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] The REST Client was not authorized to make this request!");
+                case 403: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] The provided App Key does not have sufficient privileges!");
+                case 404: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] EndpointObject '$endpoint' was not found for class '$class'!");
+                case 422: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] Data for endpoint '$endpoint' was improperly formatted!\n".
                     $body["message"]."\n".
                     json_encode($body["errors"], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT)
                 );
@@ -182,7 +182,7 @@ abstract class EndpointObject extends RestObject
         {
             // Make certain we have found a valid set of GET annotations, or throw an error!
             if (!array_key_exists("get", $endpoints) || $endpoints["get"] === "")
-                throw new \Exception("[rspaeth\REST\Endpoints\Endpoint] An '@Endpoint { \"get\": \"/examples\" }' annotation on the class must " .
+                throw new \Exception("[MVQN\REST\Endpoints\Endpoint] An '@Endpoint { \"get\": \"/examples\" }' annotation on the class must " .
                     "be declared in order to resolve this endpoint'");
 
 
@@ -245,12 +245,12 @@ abstract class EndpointObject extends RestObject
         {
             switch($response["code"])
             {
-                case 400: throw new \Exception("[rspaeth\REST\Endpoints\EndpointObject] {$response["message"]}");
-                case 401: throw new \Exception("[rspaeth\REST\Endpoints\EndpointObject] The REST Client was not authorized to make this request!");
-                case 403: throw new \Exception("[rspaeth\REST\Endpoints\EndpointObject] The provided App Key does not have sufficient privileges!");
-                case 404: throw new \Exception("[rspaeth\REST\Endpoints\EndpointObject] EndpointObject '$endpoint' was not found for class '$class'!");
+                case 400: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] {$response["message"]}");
+                case 401: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] The REST Client was not authorized to make this request!");
+                case 403: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] The provided App Key does not have sufficient privileges!");
+                case 404: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] EndpointObject '$endpoint' was not found for class '$class'!");
 
-                case 500: throw new \Exception("[rspaeth\REST\Endpoints\EndpointObject] EndpointObject '$endpoint' returned: '{$response["message"]}'!");
+                case 500: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] EndpointObject '$endpoint' returned: '{$response["message"]}'!");
 
                 // TODO: Add other response codes, as they are encountered!
 
@@ -328,7 +328,7 @@ abstract class EndpointObject extends RestObject
 
         // Make certain we have found a valid set of GET annotations, or throw an error!
         if(!array_key_exists("getById", $endpoints))
-            throw new \Exception("[rspaeth\REST\Endpoints\EndpointObject] An '@Endpoint { \"getById\": \"/examples/:id\" }' annotation on ".
+            throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] An '@Endpoint { \"getById\": \"/examples/:id\" }' annotation on ".
                 "the '$class' class must be declared in order to resolve this endpoint'");
 
         $cached = $annotations->hasClassAnnotation("Cached");
@@ -367,10 +367,10 @@ abstract class EndpointObject extends RestObject
         {
             switch($response["code"])
             {
-                case 400: throw new \Exception("[rspaeth\REST\Endpoints\EndpointObject] {$response["message"]}");
-                case 401: throw new \Exception("[rspaeth\REST\Endpoints\EndpointObject] The REST Client was not authorized to make this request!");
-                case 403: throw new \Exception("[rspaeth\REST\Endpoints\EndpointObject] The provided App Key does not have sufficient privileges!");
-                case 404: throw new \Exception("[rspaeth\REST\Endpoints\EndpointObject] EndpointObject '$endpoint' was not found for class '$class'!");
+                case 400: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] {$response["message"]}");
+                case 401: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] The REST Client was not authorized to make this request!");
+                case 403: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] The provided App Key does not have sufficient privileges!");
+                case 404: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] EndpointObject '$endpoint' was not found for class '$class'!");
 
                 // TODO: Add other response codes, as they are encountered!
 
@@ -400,7 +400,7 @@ abstract class EndpointObject extends RestObject
 
         if(!$this->validate("patch", $missing))
         {
-            throw new \Exception("[rspaeth\REST\Endpoints\EndpointObject] Annotations for the '".get_class($this)."' class require valid values be set ".
+            throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] Annotations for the '".get_class($this)."' class require valid values be set ".
                 "on all of the following properties before attempting an update():\n> ".implode("\n> ", $missing)."\n");
         }
 
@@ -434,7 +434,7 @@ abstract class EndpointObject extends RestObject
         $endpoint = array_key_exists("patch", $endpoints) ? $endpoints["patch"] : null;
 
         if($endpoint === null || $endpoint === [])
-            throw new \Exception("[rspaeth\REST\Endpoints\EndpointObject] An annotation like '@Endpoint { \"patch\": \"/examples/:id\" }' on the ".
+            throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] An annotation like '@Endpoint { \"patch\": \"/examples/:id\" }' on the ".
                 "'$class' class must be declared in order to resolve this endpoint'");
 
         // Interpolate the URL patterns against any provided parameters.
@@ -462,11 +462,11 @@ abstract class EndpointObject extends RestObject
         {
             switch($response["code"])
             {
-                case 400: throw new \Exception("[rspaeth\REST\Endpoints\EndpointObject] {$response["message"]}");
-                case 401: throw new \Exception("[rspaeth\REST\Endpoints\EndpointObject] The REST Client was not authorized to make this request!");
-                case 403: throw new \Exception("[rspaeth\REST\Endpoints\EndpointObject] The provided App Key does not have sufficient privileges!");
-                case 404: throw new \Exception("[rspaeth\REST\Endpoints\EndpointObject] EndpointObject '$endpoint' was not found for class '$class'!");
-                case 422: throw new \Exception("[rspaeth\REST\Endpoints\EndpointObject] Data for endpoint '$endpoint' was improperly formatted!\n".
+                case 400: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] {$response["message"]}");
+                case 401: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] The REST Client was not authorized to make this request!");
+                case 403: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] The provided App Key does not have sufficient privileges!");
+                case 404: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] EndpointObject '$endpoint' was not found for class '$class'!");
+                case 422: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] Data for endpoint '$endpoint' was improperly formatted!\n".
                     $response["message"]."\n".
                     json_encode($response["errors"], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT)
                 );
@@ -493,7 +493,7 @@ abstract class EndpointObject extends RestObject
 
         //if(!$this->validate("delete", $missing))
         //{
-        //    throw new \Exception("[rspaeth\REST\Endpoints\EndpointObject] Annotations for the '".get_class($this)."' class require valid values be set ".
+        //    throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] Annotations for the '".get_class($this)."' class require valid values be set ".
         //        "on all of the following properties before attempting an update():\n> ".implode("\n> ", $missing)."\n");
         //}
 
@@ -517,7 +517,7 @@ abstract class EndpointObject extends RestObject
         $endpoint = array_key_exists("delete", $endpoints) ? $endpoints["delete"] : null;
 
         if($endpoint === null || $endpoint === [])
-            throw new \Exception("[rspaeth\REST\Endpoints\EndpointObject] An annotation like '@Endpoint { \"delete\": \"/examples/:id\" }' on the ".
+            throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] An annotation like '@Endpoint { \"delete\": \"/examples/:id\" }' on the ".
                 "'$class' class must be declared in order to resolve this endpoint'");
 
         // Interpolate the URL patterns against any provided parameters.
@@ -545,11 +545,11 @@ abstract class EndpointObject extends RestObject
         {
             switch($response["code"])
             {
-                case 400: throw new \Exception("[rspaeth\REST\Endpoints\EndpointObject] {$response["message"]}");
-                case 401: throw new \Exception("[rspaeth\REST\Endpoints\EndpointObject] The REST Client was not authorized to make this request!");
-                case 403: throw new \Exception("[rspaeth\REST\Endpoints\EndpointObject] The provided App Key does not have sufficient privileges!");
-                case 404: throw new \Exception("[rspaeth\REST\Endpoints\EndpointObject] EndpointObject '$endpoint' was not found for class '$class'!");
-                case 422: throw new \Exception("[rspaeth\REST\Endpoints\EndpointObject] Data for endpoint '$endpoint' was improperly formatted!\n".
+                case 400: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] {$response["message"]}");
+                case 401: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] The REST Client was not authorized to make this request!");
+                case 403: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] The provided App Key does not have sufficient privileges!");
+                case 404: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] EndpointObject '$endpoint' was not found for class '$class'!");
+                case 422: throw new \Exception("[MVQN\REST\Endpoints\EndpointObject] Data for endpoint '$endpoint' was improperly formatted!\n".
                     $response["message"]."\n".
                     json_encode($response["errors"], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT)
                 );

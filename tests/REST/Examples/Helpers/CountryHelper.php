@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace rspaeth\REST\Examples\Helpers;
+namespace MVQN\REST\Examples\Helpers;
 
 trait CountryHelper
 {
