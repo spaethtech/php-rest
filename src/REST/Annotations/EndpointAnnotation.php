@@ -1,17 +1,17 @@
 <?php
 declare(strict_types=1);
 
-namespace MVQN\REST\Annotations;
+namespace SpaethTech\REST\Annotations;
 
 use Exception;
-use MVQN\Annotations\Annotation;
-use MVQN\Common\Arrays;
-use MVQN\Common\Patterns;
+use SpaethTech\Annotations\Annotation;
+use SpaethTech\Common\Arrays;
+use SpaethTech\Common\Patterns;
 
 /**
  * Class EndpointAnnotation
  *
- * @package MVQN\REST\Annotations
+ * @package SpaethTech\REST\Annotations
  */
 final class EndpointAnnotation extends Annotation
 {

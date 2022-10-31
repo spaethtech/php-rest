@@ -1,22 +1,22 @@
 {
-    "name": "mvqn/rest",
+    "name": "spaethtech/rest",
     "description": "A simple REST Client library for interfacing with generic REST Endpoints.",
     "type": "library",
     "license": "MIT",
     "authors": [
         {
             "name": "Ryan Spaeth",
-            "email": "rspaeth@mvqn.net"
+            "email": "rspaeth@spaethtech.com"
         }
     ],
     "require": {
         "php": "~7.3",
         "ext-curl": "*",
         "ext-json": "*",
-        "mvqn/annotations": "dev-master",
-        "mvqn/collections": "dev-master",
-        "mvqn/common": "dev-master",
-        "mvqn/dynamics": "dev-master",
+        "spaethtech/annotations": "dev-master",
+        "spaethtech/collections": "dev-master",
+        "spaethtech/common": "dev-master",
+        "spaethtech/dynamics": "dev-master",
 
         "guzzlehttp/guzzle": "~6.0"
     },
@@ -26,12 +26,12 @@
     },
     "autoload": {
         "psr-4": {
-            "MVQN\\": "./src/"
+            "SpaethTech\\": "./src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "MVQN\\": "./tests/"
+            "SpaethTech\\": "./tests/"
         }
     },
     "minimum-stability": "dev",

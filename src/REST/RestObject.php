@@ -1,22 +1,22 @@
 <?php
 declare(strict_types=1);
 
-namespace MVQN\REST;
+namespace SpaethTech\REST;
 
 use Exception;
 use JsonSerializable;
-use MVQN\Annotations\AnnotationReader;
-use MVQN\Common\Arrays;
-use MVQN\Dynamics\AutoObject;
-use MVQN\Common\Strings;
+use SpaethTech\Annotations\AnnotationReader;
+use SpaethTech\Common\Arrays;
+use SpaethTech\Dynamics\AutoObject;
+use SpaethTech\Common\Strings;
 use ReflectionClass;
 use ReflectionProperty;
 
 /**
  * Class RestObject
  *
- * @package MVQN\REST
- * @author Ryan Spaeth <rspaeth@mvqn.net>
+ * @package SpaethTech\REST
+ * @author Ryan Spaeth <rspaeth@spaethtech.com>
  */
 class RestObject extends AutoObject implements JsonSerializable
 {
@@ -136,7 +136,7 @@ class RestObject extends AutoObject implements JsonSerializable
 
             // ERROR if we are unable to find the 'types' part of the @var DocBlock!
             if(!array_key_exists("types", $info))
-                throw new Exception("[MVQN\Annotations\AnnotationReader] Unable to successfully parse the DocBlock for '$name', ".
+                throw new Exception("[SpaethTech\Annotations\AnnotationReader] Unable to successfully parse the DocBlock for '$name', ".
                     "missing @var type!");
 
             // Set the 'type' from the property info collection.
@@ -206,7 +206,7 @@ class RestObject extends AutoObject implements JsonSerializable
                                 // OTHERWISE, the child is an Array and we should create a Lookup class for it!
 
                                 // We should NEVER reach this block, in theory!
-                                throw new Exception("[MVQN\REST\RestObject] An array was found for which a Lookup class should be ".
+                                throw new Exception("[SpaethTech\REST\RestObject] An array was found for which a Lookup class should be ".
                                     "created: ".print_r($child, true));
                             }
                         }
@@ -217,7 +217,7 @@ class RestObject extends AutoObject implements JsonSerializable
                         // forgot to extend the Lookup class.
 
                         // We should NEVER reach this block, in theory!
-                        throw new Exception("[MVQN\REST\RestObject] An object was found that does not extend from Lookup: $type");
+                        throw new Exception("[SpaethTech\REST\RestObject] An object was found that does not extend from Lookup: $type");
                     }
                 }
                 else
@@ -326,7 +326,7 @@ class RestObject extends AutoObject implements JsonSerializable
                     }
                     else
                     {
-                        throw new Exception("[MVQN\Annotations\AnnotationReader] An annotation of '@{$method}Required' needs to either have a ".
+                        throw new Exception("[SpaethTech\Annotations\AnnotationReader] An annotation of '@{$method}Required' needs to either have a ".
                             "value set, or a conditional statement enclosed in back-ticks (`) to be evaluated at runtime.");
                     }
 

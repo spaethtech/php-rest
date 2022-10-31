@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace MVQN\REST\Examples\Helpers;
+namespace SpaethTech\REST\Examples\Helpers;
 
 trait CountryHelper
 {
@@ -11,4 +11,3 @@ trait CountryHelper
         return "{$this->name} ({$this->code})";
     }
 }
-
