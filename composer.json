@@ -13,10 +13,10 @@
         "php": "~7.3",
         "ext-curl": "*",
         "ext-json": "*",
-        "spaethtech/annotations": "dev-master",
-        "spaethtech/collections": "dev-master",
-        "spaethtech/common": "dev-master",
-        "spaethtech/dynamics": "dev-master",
+        "spaethtech/annotations": "*",
+        "spaethtech/collections": "*",
+        "spaethtech/common": "*",
+        "spaethtech/dynamics": "*",
 
         "guzzlehttp/guzzle": "~6.0"
     },
