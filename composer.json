@@ -1,5 +1,5 @@
 {
-    "name": "spaethtech/rest",
+    "name": "spaethtech/php-rest",
     "description": "A simple REST Client library for interfacing with generic REST Endpoints.",
     "type": "library",
     "license": "MIT",
