@@ -10,13 +10,13 @@
         }
     ],
     "require": {
-        "php": "~7.3",
+        "php": ">=8.1",
         "ext-curl": "*",
         "ext-json": "*",
-        "spaethtech/annotations": "*",
-        "spaethtech/collections": "*",
-        "spaethtech/common": "*",
-        "spaethtech/dynamics": "*",
+        "spaethtech/php-annotations": "*",
+        "spaethtech/php-collections": "*",
+        "spaethtech/php-dynamics": "*",
+        "spaethtech/php-support": "*",
 
         "guzzlehttp/guzzle": "~6.0"
     },
